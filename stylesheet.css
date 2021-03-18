@@ -1,3 +1,7 @@
 .basic{
     padding-bottom: 1em;
 }
+
+#search-box{
+    align-self: center;
+}
