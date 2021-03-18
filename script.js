@@ -9,10 +9,8 @@ function record(){
       const recognition = new window.SpeechRecognition();
 
       recognition.onresult = (event) => {
-          const speechToText = event.results[0][0].transcript;
-          console.log("here");
-          console.log(speechToText);
-          document.getElementById('search_box').value = speechToText;
+          const transcribedText = event.results[0][0].transcript;
+          document.getElementById('search_box').value = transcribedText;
           searchPhotos();
           }
 
