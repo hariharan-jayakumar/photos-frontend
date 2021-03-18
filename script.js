@@ -25,6 +25,7 @@ function searchPhotos(){
         console.log(response);
 
         var images = response.data.body;
+        console.log(images);
 
         var images_div = document.getElementById('search_result');
         while (images_div.firstChild){
