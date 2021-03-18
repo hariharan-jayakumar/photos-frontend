@@ -15,8 +15,6 @@ function record(){
         }
 
     recognition.stop();
-
-    console.log("here2");
     recognition.start();
 }
 
