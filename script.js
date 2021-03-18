@@ -1,21 +1,24 @@
 var sdk = apigClientFactory.newClient({});
 
 function record(){
-    console.log("here!");
-    
-    window.SpeechRecognition = window.webkitSpeechRecognition || window.SpeechRecognition;
-    const recognition = new window.SpeechRecognition();
+    if (!('webkitSpeechRecognition' in window)) {
+      upgrade();
+    } 
+    else{
+      window.SpeechRecognition = window.webkitSpeechRecognition || window.SpeechRecognition;
+      const recognition = new window.SpeechRecognition();
 
-    recognition.onresult = (event) => {
-        const speechToText = event.results[0][0].transcript;
-        console.log("here");
-        console.log(speechToText);
-        document.getElementById('search_box').value = speechToText;
-        searchPhotos();
-        }
+      recognition.onresult = (event) => {
+          const speechToText = event.results[0][0].transcript;
+          console.log("here");
+          console.log(speechToText);
+          document.getElementById('search_box').value = speechToText;
+          searchPhotos();
+          }
 
-    recognition.stop();
-    recognition.start();
+      recognition.stop();
+      recognition.start();
+    }
 }
 
 function searchPhotos(){
@@ -69,28 +72,23 @@ function getBase64(file) {
   }
 
 function uploadPhotos(){
+  var file = document.getElementById('img').files[0];
+  var labels = document.getElementById('labels').value;
+  const reader = new FileReader();
 
+  var file_data;
+  var encoded_image = getBase64(file).then(
+    data => {
+    var body = data;
+    var params = {"objectKey" : file.name, "bucket" : "photos-bucket-assignment2", "labels":labels, "Content-Type" : "application/json", "realcontenttype": file.type};
+    var additionalParams = {};
 
-    // var file_data = $("#file_path").prop("files")[0];
-   var file = document.getElementById('img').files[0];
-   var labels = document.getElementById('labels').value;
-   const reader = new FileReader();
-
-   var file_data;
-   // var file = document.querySelector('#file_path > input[type="file"]').files[0];
-   var encoded_image = getBase64(file).then(
-     data => {
-     
-     var body = data;
-     var params = {"objectKey" : file.name, "bucket" : "bucket2photos", "labels":labels, "Content-Type" : "application/json", "realcontenttype": file.type};
-     var additionalParams = {};
-
-     sdk.uploadPut(params, body , additionalParams).then(function(res){
-        window.alert("uploaded " +file.name);
-        document.getElementById('labels').value = ""
-        document.getElementById('img').value = ""
-     })
-   });
+    sdk.uploadPut(params, body , additionalParams).then(function(res){
+      window.alert(file.name + " uploaded");
+      document.getElementById('labels').value = ""
+      document.getElementById('img').value = ""
+    })
+  });
 }
 
 
