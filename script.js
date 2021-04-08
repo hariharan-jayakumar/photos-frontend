@@ -23,9 +23,8 @@ function searchPhotos(){
     search_text = document.getElementById('search_box').value;
     sdk.searchGet({'query':search_text}, {}, {}).then((response) => {
         console.log(response);
-
-        var images = response.data.body;
-        console.log(images);
+        console.log(response.data);
+        var images = response.data.results;
 
         var images_div = document.getElementById('search_result');
         while (images_div.firstChild){
