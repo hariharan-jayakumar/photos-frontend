@@ -40,7 +40,7 @@ function searchPhotos(){
         else{
             for(var image in images){
                 var image_element = document.createElement('img');
-                image_element.src = images[image];
+                image_element.src = images[image].url;
                 image_element.width = '250';
                 image_element.height = '250';
                 image_element.className = 'thumbnail';
